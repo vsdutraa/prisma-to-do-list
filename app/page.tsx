@@ -1,11 +1,21 @@
-// import Link from "next/link";
+// prisma import
+import { prisma } from "@/lib/db";
 
-export default function Home() {
+// task feature imports
+import TaskForm from "@/features/tasks/components/task-form";
+
+export default async function Home() {
+  const tasks = await prisma.task.findMany();
+
   return (
     <>
-      <div className="text-center">
-        <h1 className="text-2xl capitalize">to-do list</h1>
-      </div>
+      <ul className="flex flex-col border-t border-b">
+        {tasks.map((task) => (
+          <li key={task.id}>{task.title}</li>
+        ))}
+      </ul>
+
+      <TaskForm />
     </>
   );
 }
