@@ -1,15 +1,33 @@
 "use server";
 
-import { prisma } from "@/lib/db";
+import { prisma } from "@/prisma/db";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 // Maybe Zod implementation instead of FormData
 export async function createTask(formData: FormData) {
-  await prisma.task.create({
-    data: {
-      title: formData.get("title") as string,
-    },
-  });
+  try {
+    await prisma.task.create({
+      data: {
+        title: formData.get("title") as string,
+        slug: (formData.get("title") as string)
+          .replace(/\s+/g, "-")
+          .toLowerCase(),
+        user: {
+          connect: {
+            email: "vsdutraa@gmail.com",
+          },
+        },
+      },
+    });
+  } catch (error) {
+    // example: https://www.prisma.io/docs/orm/reference/error-reference
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        console.log("There is a unique constraint violation.");
+      }
+    }
+  }
 
   revalidatePath("/");
 }
@@ -25,5 +43,11 @@ export async function editTask(formData: FormData, id: string) {
 }
 
 export async function deleteTask(id: string) {
-  await prisma.task.delete({ where: { id } });
+  try {
+    await prisma.task.delete({ where: { id } });
+  } catch (error) {
+    console.log(error);
+  }
+
+  revalidatePath("/");
 }

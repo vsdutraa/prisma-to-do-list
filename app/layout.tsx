@@ -2,6 +2,7 @@
 
 import { Inter } from "next/font/google";
 import "@/app/globals.css";
+import { Navbar } from "@/components/navbar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,9 +23,12 @@ export default function RootLayout({
     <html lang="en">
       {/* className={`${geistSans.variable} ${geistMono.variable} antialiased`} */}
       <body className={`${inter.className} antialiased`}>
-        <main className="m-auto flex max-w-[600px] flex-col items-center pt-4">
-          {children}
-        </main>
+        <div className="h-screen">
+          <Navbar />
+          <main className="container m-auto h-[calc(100vh-3.6rem)] border-x p-4">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );

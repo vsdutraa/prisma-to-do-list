@@ -1,21 +1,33 @@
-// prisma import
-import { prisma } from "@/lib/db";
+// prisma imports
+import { prisma } from "@/prisma/db";
 
 // task feature imports
-import TaskForm from "@/features/tasks/components/task-form";
+import TaskList from "@/features/tasks/components/task-list";
+import TaskCreate from "@/features/tasks/components/task-create";
 
 export default async function Home() {
-  const tasks = await prisma.task.findMany();
+  const user = await prisma.user.findUnique({
+    where: {
+      email: "vsdutraa@gmail.com",
+    },
+    include: {
+      tasks: true,
+    },
+  });
+
+  // if (!user) {
+  //   redirect("/login");
+  // }
 
   return (
-    <>
-      <ul className="flex flex-col border-t border-b">
-        {tasks.map((task) => (
-          <li key={task.id}>{task.title}</li>
-        ))}
-      </ul>
+    <div className="flex h-full flex-col justify-between">
+      {user && (
+        <>
+          <TaskList tasks={user.tasks} />
 
-      <TaskForm />
-    </>
+          <TaskCreate />
+        </>
+      )}
+    </div>
   );
 }
