@@ -16,7 +16,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
             key={task.id}
             className="flex items-center justify-between border-b py-2"
           >
-            <Link href={`/${task.slug}`}>
+            <Link href={`/tasks/${task.slug}`}>
               <p className="text-sm leading-none">{task.title}</p>
             </Link>
 

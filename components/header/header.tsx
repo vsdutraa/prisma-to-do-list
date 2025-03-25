@@ -1,13 +1,15 @@
+"use client";
+
 // next imports
 import Link from "next/link";
-
-// shadcn imports
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 // lucide react imports
 import { Pen } from "lucide-react";
 
-export function Navbar() {
+// shared imports
+import UserAvatarDropdown from "@/components/header/user-avatar-dropdown";
+
+export function Header() {
   return (
     <header className="flex h-14 items-center border-b">
       <div className="container m-auto flex h-full items-center justify-between border-x px-4">
@@ -18,10 +20,9 @@ export function Navbar() {
         </Link>
 
         {/* right side */}
-        <Avatar>
-          <AvatarImage src="https://github.com/vsdutraa.png" />
-          <AvatarFallback>VD</AvatarFallback>
-        </Avatar>
+        <div>
+          <UserAvatarDropdown />
+        </div>
       </div>
     </header>
   );

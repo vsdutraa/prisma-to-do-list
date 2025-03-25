@@ -2,7 +2,7 @@
 
 import { Inter } from "next/font/google";
 import "@/app/globals.css";
-import { Navbar } from "@/components/navbar";
+import { Header } from "@/components/header/header";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -24,7 +24,7 @@ export default function RootLayout({
       {/* className={`${geistSans.variable} ${geistMono.variable} antialiased`} */}
       <body className={`${inter.className} antialiased`}>
         <div className="h-screen">
-          <Navbar />
+          <Header />
           <main className="container m-auto h-[calc(100vh-3.6rem)] border-x p-4">
             {children}
           </main>

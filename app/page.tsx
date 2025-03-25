@@ -1,33 +1,43 @@
-// prisma imports
-import { prisma } from "@/prisma/db";
+// next imports
+// import { redirect } from "next/navigation";
+import Link from "next/link";
 
-// task feature imports
-import TaskList from "@/features/tasks/components/task-list";
-import TaskCreate from "@/features/tasks/components/task-create";
+// kinde imports
+import {
+  LoginLink,
+  RegisterLink,
+} from "@kinde-oss/kinde-auth-nextjs/components";
+
+// prisma imports
+// import { prisma } from "@/prisma/db";
+
+// shadcn imports
+import { Button } from "@/components/ui/button";
 
 export default async function Home() {
-  const user = await prisma.user.findUnique({
-    where: {
-      email: "vsdutraa@gmail.com",
-    },
-    include: {
-      tasks: true,
-    },
-  });
-
-  // if (!user) {
-  //   redirect("/login");
-  // }
-
   return (
-    <div className="flex h-full flex-col justify-between">
-      {user && (
-        <>
-          <TaskList tasks={user.tasks} />
+    <div className="m-auto flex max-w-[600px] flex-col gap-2">
+      <div>
+        <h1 className="text-2xl font-black">To-do App</h1>
+        <p className="text-lg">
+          Go to the{" "}
+          <Link href="/tasks" className="animate-pulse hover:underline">
+            tasks
+          </Link>{" "}
+          page to start adding your tasks.
+        </p>
+      </div>
 
-          <TaskCreate />
-        </>
-      )}
+      <div className="flex space-x-1">
+        <LoginLink>
+          <Button variant="outline" className="cursor-pointer">
+            Sign in
+          </Button>
+        </LoginLink>
+        <RegisterLink>
+          <Button className="cursor-pointer">Sign up</Button>
+        </RegisterLink>
+      </div>
     </div>
   );
 }
